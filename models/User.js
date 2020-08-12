@@ -10,7 +10,7 @@ const UserSchema = mongoose.Schema({
         required:true,
     },
     phone: {
-        type: String,
+        type: Number,
         required:true,
     },
     pass: {
@@ -21,6 +21,10 @@ const UserSchema = mongoose.Schema({
         type: String,
         required:true,
     },
+    appointment:{
+        type:Boolean,
+        required:true,
+    }
 });
 
 module.exports = mongoose.model('user',UserSchema,"user");

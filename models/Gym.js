@@ -2,15 +2,19 @@ const mongoose = require('mongoose');
 
 const GymTimingSchema = mongoose.Schema({
     stime:{
-        type:String,
+        type:Number,
         required:true,
     },
     etime:{
-        type:String,
+        type:Number,
         required:true,
     },
     count:{
-        type:String,
+        type:Number,
+        required:true,
+    },
+    limit:{
+        type:Number,
         required:true,
     }
 });

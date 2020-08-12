@@ -23,7 +23,7 @@ app.get('/',(req,res) => {
 
 //Reset Appointment everyday
 cronJob.schedule("00 00 * * *", function() {
-        console.log("Tick");
+        Appoitment.remove({}); // Remove all the appointment after one day.
 }, undefined, true,"Asia/Kolkata");
 
 

@@ -3,6 +3,7 @@ const router = express.Router();
 const Gym = require('../models/Gym');
 
 
+//Owner Add timing
 router.patch('/addtiming', async (req,res) => {
     const gcode_var = req.body.gcode;
     const gExist = await Gym.find({
@@ -21,7 +22,8 @@ router.patch('/addtiming', async (req,res) => {
                     time:{
                         "stime":req.body.stime,
                         "etime":req.body.etime,
-                        "count":req.body.count,
+                        "count":0,
+                        "limit":req.body.limit,
                     }
                 }
             });
@@ -38,7 +40,7 @@ router.patch('/addtiming', async (req,res) => {
         
 });
 
-
+//Owner Delete timing
 router.patch('/deltiming', async (req,res) => {
     const gcode_var = req.body.gcode;
     const gExist = await Gym.find({
