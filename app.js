@@ -18,7 +18,7 @@ app.use('/gyms',gymsRoute);
 
 //Home Page
 app.get('/',(req,res) => {
-    res.send("We are on Home");
+    res.send("Welcome to Gym App");
 })
 
 //Reset Appointment everyday
