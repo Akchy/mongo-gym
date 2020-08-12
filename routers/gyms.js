@@ -1,8 +1,69 @@
 const express = require('express');
 const router = express.Router();
-const Post = require('../models/User');
+const Gym = require('../models/Gym');
 
-router.get('/', async (req,res) => {
+
+router.patch('/addtiming', async (req,res) => {
+    const gcode_var = req.body.gcode;
+    const gExist = await Gym.find({
+        gcode:gcode_var
+    }).countDocuments();
+    const timeExist = await Gym.find({
+        "time.stime":req.body.stime,
+    }).countDocuments();
+    if(gExist==1 && timeExist==0){
+        try{
+            await Gym.updateOne({
+                gcode: gcode_var,
+            },
+            {
+                $push:{
+                    time:{
+                        "stime":req.body.stime,
+                        "etime":req.body.etime,
+                        "count":req.body.count,
+                    }
+                }
+            });
+            res.send("Added");
+        }
+        catch(err){
+            res.json({message:err});
+        }
+    }
+    else if(timeExist==1)
+        res.send("Time Already Exist");
+    else   
+        res.send("Error");
+        
+});
+
+
+router.patch('/deltiming', async (req,res) => {
+    const gcode_var = req.body.gcode;
+    const gExist = await Gym.find({
+        gcode:gcode_var,
+    }).countDocuments();
+    if(gExist==1){
+        try{
+            await Gym.updateOne({
+                gcode: gcode_var,
+            },
+            {
+                $pull:{
+                    time:{"stime":req.body.stime,}
+                }
+            });
+            res.send("Deleted");
+        }
+        catch(err){
+            res.json({message:err});
+        }
+    }
+});
+
+
+/*router.get('/', async (req,res) => {
     try{
         const posts = await Post.find();
         res.json(posts);
@@ -54,6 +115,6 @@ router.patch('/:postId',async (req,res)=> {
         res.json({message:err});
     }
 });
-
+*/
 
 module.exports =router;

@@ -4,8 +4,10 @@ const postsRoute = require('./routers/posts');
 const usersRoute = require('./routers/users');
 const gymsRoute = require('./routers/gyms');
 const bodyParser = require('body-parser');
+var cronJob = require('node-cron');
 const cors = require('cors');
 require('dotenv/config');
+
 
 //Midlewares
 app.use(cors());
@@ -18,6 +20,12 @@ app.use('/gyms',gymsRoute);
 app.get('/',(req,res) => {
     res.send("We are on Home");
 })
+
+//Reset Appointment everyday
+cronJob.schedule("00 00 * * *", function() {
+        console.log("Tick");
+}, undefined, true,"Asia/Kolkata");
+
 
 //Connect to DB
 const mongoose = require('mongoose');
