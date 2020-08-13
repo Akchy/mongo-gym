@@ -8,11 +8,8 @@ const Appt = require('../models/Appointment');
 
 
 //Test
-router.get('/:email', async (req,res)=>{
-    const temp = User.find({
-        email:req.params.email
-    });
-    res.json(temp);
+router.get('/', async (req,res)=>{
+    res.send("Users");
 });
 
 //Login

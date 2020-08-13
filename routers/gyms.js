@@ -4,6 +4,10 @@ const Gym = require('../models/Gym');
 const Timing = require('../models/Timing');
 
 
+router.get("/",(req,res)=>{
+    res.send("Posts");
+})
+
 //Owner Add timing
 router.post('/addtiming', async (req,res) => {
     const gcode_var = req.body.gcode;
