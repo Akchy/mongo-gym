@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const postsRoute = require('./routers/posts');
 const usersRoute = require('./routers/users');
 const gymsRoute = require('./routers/gyms');
 const bodyParser = require('body-parser');
@@ -13,7 +12,6 @@ require('dotenv/config');
 app.use(cors());
 app.use(bodyParser.json());
 app.use('/users',usersRoute);
-app.use('/posts',postsRoute);
 app.use('/gyms',gymsRoute);
 
 //Home Page
