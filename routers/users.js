@@ -14,8 +14,8 @@ router.get('/', async (req,res)=>{
 
 //Login
 router.get('/:username&:pass', async (req,res) => {
-    /*try{
-        const valid = await User.find({
+    try{
+    /*    const valid = await User.find({
             email: req.params.username,
         }).countDocuments();
         if(valid == 1){
@@ -30,10 +30,10 @@ router.get('/:username&:pass', async (req,res) => {
         /*}
         if(valid == 0)
             res.send(0); //Not Exist
-    }
+        */}
     catch(err){
         res.json({message:err});
-    }*/
+    }
 });
 
 
