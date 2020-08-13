@@ -9,7 +9,8 @@ const Appt = require('../models/Appointment');
 
 //Test
 router.get('/', async (req,res)=>{
-    res.send("Users");
+    const valid = await User.find({});
+    res.json(valid);
 });
 
 //Login
