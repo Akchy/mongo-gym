@@ -33,12 +33,12 @@ router.get('/:username&:pass', async (req,res) => {
                 pass: req.params.pass
             }).countDocuments();
             if(check==1)
-                res.send("Logged in")
+                res.send(1) // Logged In
             else    
-                res.send("Incorrect Password")
+                res.send(2); //Incorrect Password
         }
         if(valid == 0)
-            res.send("Not Exist");
+            res.send(0); //Not Exist
     }
     catch(err){
         res.json({message:err});
@@ -67,17 +67,17 @@ router.post('/', async (req,res) => {
 
         try{
             const savedUser = await user.save()
-            res.json(savedUser);
+            res.send(1); //saved
         }
         catch(err){
             res.json({message:err});
         }
     }
     else if(gExist==0){
-        res.send("Enter valid Gym Code");
+        res.send(3); //Enter valid Gym Code
     }
     else{
-        res.send("Enter valid Email and password");
+        res.send(4); //Enter valid Email and password 
     }
 
 });
@@ -149,22 +149,22 @@ router.post('/appointment', async (req,res) => {
 
             try{
                 await appt.save()
-                res.send("Appointment Made");
+                res.send(1);  //Appointment Made
             }
             catch(err){
                 res.json({message:err});
             }
         }
         else{
-            res.send("Limit Exeeded");
+            res.send(0);  //Limit Exeeded
         }        
     }
     else{
         if(gExist==0){
-            res.send("Enter valid Gym Code");
+            res.send(3);  // Enter Valid Gym Code
         }
         if(userExist==0)
-            res.send("Enter valid Email ID");
+            res.send(4);  // Enter Valid Email
     }
 });
 
@@ -176,36 +176,9 @@ router.delete('/delappointment', async (req,res)=>{
         stime:req.body.stime
     });
 
-    res.send("Deleted")
+    res.send(1); // Deleted
 });
 
-/*
-router.get('/:postId', async(req,res)=>{
-    try{
-        const post = await Post.findById(req.params.postId);
-        res.json(post);
-    }catch(err){
-        res.json({message:err});
-    }
-});
-
-router.delete('/:postId',async(req,res)=>{
-    try{
-        const removedPost = await Post.deleteOne({_id: req.params.postId});
-        res.json(removedPost);
-    }catch(err){
-        res.json({message:err});
-    }
-});
-
-router.patch('/:postId',async (req,res)=> {
-    try{
-        const updatedPost = await Post.updateOne({_id: req.params.postId},{$set: {title: req.body.title }});
-        res.json(updatedPost);
-    }catch(err){
-        res.json({message:err});
-    }
-});*/
 
 
 module.exports =router;

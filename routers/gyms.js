@@ -24,16 +24,16 @@ router.post('/addtiming', async (req,res) => {
                 limit:req.body.limit
             })
             await newTiming.save();
-            res.send("Added");
+            res.send(1); //Added Timing
         }
         catch(err){
             res.json({message:err});
         }
     }
     else if(timeExist==1)
-        res.send("Time Already Exist");
+        res.send(0);  // Time Already Exist
     else   
-        res.send("Error");
+        res.send(2); // Error
         
 });
 
@@ -49,7 +49,7 @@ router.delete('/deltiming', async (req,res) => {
                 gcode: gcode_var,
                 stime:req.body.stime
             });
-            res.send("Deleted");
+            res.send(1);  // Deleted
         }
         catch(err){
             res.json({message:err});
@@ -58,58 +58,5 @@ router.delete('/deltiming', async (req,res) => {
 });
 
 
-/*router.get('/', async (req,res) => {
-    try{
-        const posts = await Post.find();
-        res.json(posts);
-    }
-    catch(err){
-        res.json({message:err});
-    }
-});
-
-router.post('/', async (req,res) => {
-    const post = new Post({
-        title: req.body.title,
-        desc: req.body.desc
-    })
-
-    try{
-        const savedPost = await post.save()
-        res.json(savedPost);
-    }
-    catch(err){
-        res.json({message:err});
-    }
-        
-});
-
-router.get('/:postId', async(req,res)=>{
-    try{
-        const post = await Post.findById(req.params.postId);
-        res.json(post);
-    }catch(err){
-        res.json({message:err});
-    }
-});
-
-router.delete('/:postId',async(req,res)=>{
-    try{
-        const removedPost = await Post.deleteOne({_id: req.params.postId});
-        res.json(removedPost);
-    }catch(err){
-        res.json({message:err});
-    }
-});
-
-router.patch('/:postId',async (req,res)=> {
-    try{
-        const updatedPost = await Post.updateOne({_id: req.params.postId},{$set: {title: req.body.title }});
-        res.json(updatedPost);
-    }catch(err){
-        res.json({message:err});
-    }
-});
-*/
 
 module.exports =router;
