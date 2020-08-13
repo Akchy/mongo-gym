@@ -14,7 +14,7 @@ router.get('/', async (req,res)=>{
 });
 
 //Login
-router.get('/login/:username&:pass', async (req,res) => {
+router.get('/login/:username/:pass', async (req,res) => {
     try{
     /*    const valid = await User.find({
             email: req.params.username,
