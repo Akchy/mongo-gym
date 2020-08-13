@@ -33,7 +33,10 @@ router.get('/login/:username/:pass', async (req,res) => {
             res.send(0); //Not Exist
         }
     catch(err){
-        res.json({message:err});
+        console.log(err);
+
+        res.send("-1");
+        //res.json({message:err});
     }
 });
 
@@ -62,7 +65,10 @@ router.post('/', async (req,res) => {
             res.send("1"); //saved
         }
         catch(err){
-            res.json({message:err});
+            console.log(err);
+    
+            res.send("-1");
+            //res.json({message:err});
         }
     }
     else if(gExist==0){
@@ -85,7 +91,11 @@ router.get('/gymtiming/:gcode', async (req,res)=>{
         });
         res.json(timing);
     }catch (err){
-        res.json({message:err})
+        
+        console.log(err);
+
+        res.send("-1");
+        //res.json({message:err});
     }
 });
 
@@ -144,7 +154,10 @@ router.post('/appointment', async (req,res) => {
                 res.send("1");  //Appointment Made
             }
             catch(err){
-                res.json({message:err});
+                console.log(err);
+        
+                res.send("-1");
+                //res.json({message:err});
             }
         }
         else{

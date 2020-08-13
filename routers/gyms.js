@@ -31,7 +31,10 @@ router.post('/addtiming', async (req,res) => {
             res.send("1"); //Added Timing
         }
         catch(err){
-            res.json({message:err});
+            console.log(err);
+    
+            res.send("-1");
+            //res.json({message:err});
         }
     }
     else if(timeExist==1)
@@ -56,7 +59,10 @@ router.delete('/deltiming', async (req,res) => {
             res.send("1");  // Deleted
         }
         catch(err){
-            res.json({message:err});
+            console.log(err);
+    
+            res.send("-1");
+            //res.json({message:err});
         }
     }
 });
