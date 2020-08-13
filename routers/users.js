@@ -14,12 +14,12 @@ router.get('/', async (req,res)=>{
 
 //Login
 router.get('/:username&:pass', async (req,res) => {
-    try{
+    /*try{
         const valid = await User.find({
             email: req.params.username,
         }).countDocuments();
         if(valid == 1){
-            const check = await User.find({
+      */      const check = await User.find({
                 email: req.params.username,
                 pass: req.params.pass
             }).countDocuments();
@@ -27,13 +27,13 @@ router.get('/:username&:pass', async (req,res) => {
                 res.send(1) // Logged In
             else    
                 res.send(2); //Incorrect Password
-        }
+        /*}
         if(valid == 0)
             res.send(0); //Not Exist
     }
     catch(err){
         res.json({message:err});
-    }
+    }*/
 });
 
 
