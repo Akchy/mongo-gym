@@ -14,7 +14,7 @@ router.get('/', async (req,res)=>{
 });
 
 //Login
-router.get('/:username&:pass', async (req,res) => {
+router.get('/login/:username&:pass', async (req,res) => {
     try{
     /*    const valid = await User.find({
             email: req.params.username,
@@ -25,9 +25,9 @@ router.get('/:username&:pass', async (req,res) => {
                 pass: req.params.pass
             }).countDocuments();
             if(check==1)
-                res.send(1) // Logged In
+                res.send("1") // Logged In
             else    
-                res.send(2); //Incorrect Password
+                res.send("2"); //Incorrect Password
         /*}
         if(valid == 0)
             res.send(0); //Not Exist
@@ -58,18 +58,18 @@ router.post('/', async (req,res) => {
         })
 
         try{
-            const savedUser = await user.save()
-            res.send(1); //saved
+            await user.save()
+            res.send("1"); //saved
         }
         catch(err){
             res.json({message:err});
         }
     }
     else if(gExist==0){
-        res.send(3); //Enter valid Gym Code
+        res.send("3"); //Enter valid Gym Code
     }
     else{
-        res.send(4); //Enter valid Email and password 
+        res.send("4"); //Enter valid Email and password 
     }
 
 });
@@ -141,22 +141,22 @@ router.post('/appointment', async (req,res) => {
 
             try{
                 await appt.save()
-                res.send(1);  //Appointment Made
+                res.send("1");  //Appointment Made
             }
             catch(err){
                 res.json({message:err});
             }
         }
         else{
-            res.send(0);  //Limit Exeeded
+            res.send("0");  //Limit Exeeded
         }        
     }
     else{
         if(gExist==0){
-            res.send(3);  // Enter Valid Gym Code
+            res.send("3");  // Enter Valid Gym Code
         }
         if(userExist==0)
-            res.send(4);  // Enter Valid Email
+            res.send("4");  // Enter Valid Email
     }
 });
 
@@ -168,7 +168,7 @@ router.delete('/delappointment', async (req,res)=>{
         stime:req.body.stime
     });
 
-    res.send(1); // Deleted
+    res.send("1"); // Deleted
 });
 
 

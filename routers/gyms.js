@@ -28,16 +28,16 @@ router.post('/addtiming', async (req,res) => {
                 limit:req.body.limit
             })
             await newTiming.save();
-            res.send(1); //Added Timing
+            res.send("1"); //Added Timing
         }
         catch(err){
             res.json({message:err});
         }
     }
     else if(timeExist==1)
-        res.send(0);  // Time Already Exist
+        res.send("0");  // Time Already Exist
     else   
-        res.send(2); // Error
+        res.send("2"); // Error
         
 });
 
@@ -53,7 +53,7 @@ router.delete('/deltiming', async (req,res) => {
                 gcode: gcode_var,
                 stime:req.body.stime
             });
-            res.send(1);  // Deleted
+            res.send("1");  // Deleted
         }
         catch(err){
             res.json({message:err});
