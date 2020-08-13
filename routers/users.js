@@ -30,7 +30,7 @@ router.get('/login/:username/:pass', async (req,res) => {
                 res.send("2"); //Incorrect Password
         }
         if(valid == 0)
-            res.send(0); //Not Exist
+            res.send("0"); //Not Exist
         }
     catch(err){
         console.log(err);
