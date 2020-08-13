@@ -8,17 +8,11 @@ const Appt = require('../models/Appointment');
 
 
 //Test
-router.get('/', async (req,res)=>{
-    var date = new Date();
-    var currentDate= date.getFullYear() + '-' + 
-    ("0" + (date.getMonth() + 1)).slice(-2) + '-' + 
-    ("0" + (date.getDate())).slice(-2);
-    const compare = await Appt.remove({
-        date:{
-            $lt:currentDate
-        }
+router.get('/:email', async (req,res)=>{
+    const temp = User.find({
+        email:req.params.email
     });
-    res.json(compare);
+    res.json(temp);
 });
 
 //Login
