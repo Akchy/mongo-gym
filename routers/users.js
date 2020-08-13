@@ -3,8 +3,23 @@ var validator = require("email-validator");
 const router = express.Router();
 const User = require('../models/User');
 const Gym = require('../models/Gym');
+const Timing = require('../models/Timing');
 const Appt = require('../models/Appointment');
 
+
+//Test
+router.get('/', async (req,res)=>{
+    var date = new Date();
+    var currentDate= date.getFullYear() + '-' + 
+    ("0" + (date.getMonth() + 1)).slice(-2) + '-' + 
+    ("0" + (date.getDate())).slice(-2);
+    const compare = await Appt.remove({
+        date:{
+            $lt:currentDate
+        }
+    });
+    res.json(compare);
+});
 
 //Login
 router.get('/:username&:pass', async (req,res) => {
@@ -94,13 +109,18 @@ router.post('/appointment', async (req,res) => {
       
     if(userExist==1 && gExist==1){
         // check if the given timing has slot left
-        const available = await Gym.find({
+        const available = await Timing.find({
             gcode:req.body.gcode,
-            "time.stime":req.body.stime,
+            stime:req.body.stime,
             $expr:{
-                $gte:[ "$time.limit","$time.count"]
+                $gte:[ "$limit","$count"]
             }
         }).countDocuments(); 
+
+        var date = new Date();
+        var currentDate= date.getFullYear() + '-' + 
+        ("0" + (date.getMonth() + 1)).slice(-2) + '-' + 
+        ("0" + (date.getDate())).slice(-2);
 
         if(available==1){
             const appt = new Appt({
@@ -108,13 +128,14 @@ router.post('/appointment', async (req,res) => {
                 code: req.body.gcode,
                 stime: req.body.stime,
                 etime: req.body.etime,
+                date: currentDate
             });
             //Increment the value from Gym count
-            await Gym.updateOne({
+            await Timing.updateOne({
                 gcode:req.body.gcode,
-                "time.stime":req.body.stime,
+                stime:req.body.stime,
             },{
-                $inc: { "time.$.count":1}
+                $inc: { count:1}
             });
 
             //change the field in user profile
@@ -145,6 +166,17 @@ router.post('/appointment', async (req,res) => {
         if(userExist==0)
             res.send("Enter valid Email ID");
     }
+});
+
+router.delete('/delappointment', async (req,res)=>{
+    //Appointment Document Removed
+    await Appt.remove({
+        gcode:req.body.gcode,
+        date:req.body.date,
+        stime:req.body.stime
+    });
+
+    res.send("Deleted")
 });
 
 /*

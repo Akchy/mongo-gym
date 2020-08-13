@@ -1,32 +1,29 @@
 const express = require('express');
 const router = express.Router();
 const Gym = require('../models/Gym');
+const Timing = require('../models/Timing');
 
 
 //Owner Add timing
-router.patch('/addtiming', async (req,res) => {
+router.post('/addtiming', async (req,res) => {
     const gcode_var = req.body.gcode;
     const gExist = await Gym.find({
         gcode:gcode_var
     }).countDocuments();
-    const timeExist = await Gym.find({
-        "time.stime":req.body.stime,
+    const timeExist = await Timing.find({
+        gcode:gcode_var,
+        stime:req.body.stime,
     }).countDocuments();
     if(gExist==1 && timeExist==0){
         try{
-            await Gym.updateOne({
-                gcode: gcode_var,
-            },
-            {
-                $push:{
-                    time:{
-                        "stime":req.body.stime,
-                        "etime":req.body.etime,
-                        "count":0,
-                        "limit":req.body.limit,
-                    }
-                }
-            });
+            const newTiming = new Timing({
+                gcode:req.body.gcode,
+                stime:req.body.stime,
+                etime:req.body.etime,
+                count:0,
+                limit:req.body.limit
+            })
+            await newTiming.save();
             res.send("Added");
         }
         catch(err){
@@ -41,20 +38,16 @@ router.patch('/addtiming', async (req,res) => {
 });
 
 //Owner Delete timing
-router.patch('/deltiming', async (req,res) => {
+router.delete('/deltiming', async (req,res) => {
     const gcode_var = req.body.gcode;
     const gExist = await Gym.find({
         gcode:gcode_var,
     }).countDocuments();
     if(gExist==1){
         try{
-            await Gym.updateOne({
+            await Timing.remove({
                 gcode: gcode_var,
-            },
-            {
-                $pull:{
-                    time:{"stime":req.body.stime,}
-                }
+                stime:req.body.stime
             });
             res.send("Deleted");
         }

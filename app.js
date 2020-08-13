@@ -23,8 +23,19 @@ app.get('/',(req,res) => {
 
 //Reset Appointment everyday
 cronJob.schedule("00 00 * * *", function() {
-        Appoitment.remove({}); // Remove all the appointment after one day.
+        // Remove all the appointment which are invalid everyday.
+
+        var date = new Date();
+        var currentDate= date.getFullYear() + '-' + 
+        ("0" + (date.getMonth() + 1)).slice(-2) + '-' + 
+        ("0" + (date.getDate())).slice(-2);
+        Appt.remove({
+            date:{
+                $lt:currentDate
+            }
+        });
 }, undefined, true,"Asia/Kolkata");
+
 
 
 //Connect to DB
