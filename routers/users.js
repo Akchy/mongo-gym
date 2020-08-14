@@ -52,7 +52,7 @@ router.post('/', async (req,res) => {
     const emailExist = await User.find({
         email:req.body.email
     }).countDocuments();
-    if(emailExist==1){
+    if(emailExist==0){
         if(validator.validate(req.body.email) && len>=6 && gExist==1)
         {
             const user = new User({
