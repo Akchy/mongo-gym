@@ -49,33 +49,43 @@ router.post('/', async (req,res) => {
         gcode:req.body.gcode,
     }).countDocuments();
       
-    if(validator.validate(req.body.email) && len>=6 && gExist==1)
-    {
-        const user = new User({
-            name: req.body.name,
-            email: req.body.email,
-            pass: req.body.pass,
-            phone: req.body.phone,
-            gcode: req.body.gcode,
-            appointment:false,
-        })
+    const emailExist = await User.find({
+        email:req.body.email
+    }).countDocuments();
+    if(emailExist==1){
+        if(validator.validate(req.body.email) && len>=6 && gExist==1)
+        {
+            const user = new User({
+                name: req.body.name,
+                email: req.body.email,
+                pass: req.body.pass,
+                phone: req.body.phone,
+                gcode: req.body.gcode,
+                appointment:false,
+            })
 
-        try{
-            await user.save()
-            res.send("1"); //saved
+            try{
+                await user.save()
+                res.send("1"); //saved
+            }
+            catch(err){
+                console.log(err);
+        
+                res.send("-1");
+                //res.json({message:err});
+            }
         }
-        catch(err){
-            console.log(err);
-    
-            res.send("-1");
-            //res.json({message:err});
+        else if(gExist==0){
+            res.send("3"); //Enter valid Gym Code
         }
-    }
-    else if(gExist==0){
-        res.send("3"); //Enter valid Gym Code
+        else if(len<6)
+            res.send("-4"); // Week Password
+        else{
+            res.send("-2"); //Enter valid Email and password 
+        }
     }
     else{
-        res.send("4"); //Enter valid Email and password 
+        res.send("-3"); // Existing Email
     }
 
 });
