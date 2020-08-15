@@ -43,8 +43,6 @@ router.get('/login/:username/:pass', async (req,res) => {
 
 //Sign-up
 router.post('/', async (req,res) => {
-    const pass = req.body.pass;
-    const len = pass.length;
     const gExist = await Gym.find({
         gcode:req.body.gcode,
     }).countDocuments();
@@ -53,7 +51,7 @@ router.post('/', async (req,res) => {
         email:req.body.email
     }).countDocuments();
     if(emailExist==0){
-        if(validator.validate(req.body.email) && len>=6 && gExist==1)
+        if(validator.validate(req.body.email) && gExist==1)
         {
             const user = new User({
                 name: req.body.name,
@@ -78,8 +76,6 @@ router.post('/', async (req,res) => {
         else if(gExist==0){
             res.send("3"); //Enter valid Gym Code
         }
-        else if(len<6)
-            res.send("-4"); // Week Password
         else{
             res.send("-2"); //Enter valid Email and password 
         }
@@ -93,11 +89,8 @@ router.post('/', async (req,res) => {
 //get the gym timing
 router.get('/gymtiming/:gcode', async (req,res)=>{
     try{
-        const timing = await Gym.find({
+        const timing = await Timing.find({
             gcode:req.params.gcode,
-        },{
-            time:1,
-            _id:0,
         });
         res.json(timing);
     }catch (err){
@@ -109,6 +102,21 @@ router.get('/gymtiming/:gcode', async (req,res)=>{
     }
 });
 
+router.get('/details/:email', async (req,res)=>{
+    try{
+        const detail = await User.find({
+            email:req.params.email,
+        },{
+            name:1,
+            gcode:1,
+            _id:0
+        });
+        res.json(detail[0]);
+    }catch (err){
+        console.log(err);
+        res.send("-1");
+    }
+});
 
 //Appointment
 router.post('/appointment', async (req,res) => {
