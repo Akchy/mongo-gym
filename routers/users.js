@@ -91,6 +91,10 @@ router.get('/gymtiming/:gcode', async (req,res)=>{
     try{
         const timing = await Timing.find({
             gcode:req.params.gcode,
+        },{
+            _id:0,
+            stime:1,
+            etime:1,
         });
         res.json(timing);
     }catch (err){
