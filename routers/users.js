@@ -104,13 +104,18 @@ router.get('/gymtiming/:gcode', async (req,res)=>{
 
 router.get('/details/:email', async (req,res)=>{
     try{
-        const detail = await User.find({
+        const getGcode = await User.find({
             email:req.params.email,
         },{
-            name:1,
             gcode:1,
             _id:0
         });
+        var gcode = getGcode[0].gcode;
+        const detail = await Gym.find({
+            gcode:gcode
+        },{
+            _id:0
+        })
         res.json(detail[0]);
     }catch (err){
         console.log(err);
