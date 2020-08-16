@@ -217,6 +217,11 @@ router.get('/getappointment/:email/:gcode', async (req,res) => {
             const list = await Appt.find({
             email:req.params.email,
             code:req.params.gcode,
+        },{
+            stime:1,
+            etime:1,
+            date:1,
+            _id:0
         });
         res.json(list);
     }
