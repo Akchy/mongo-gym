@@ -211,6 +211,20 @@ router.delete('/delappointment', async (req,res)=>{
     res.send("1"); // Deleted
 });
 
+router.get('/getappointment/:email/:gcode', async (req,res) => {
+    
+    try{
+            const list = await Appt.find({
+            email:req.params.email,
+            code:req.params.gcode,
+        });
+        res.json(list);
+    }
+    catch(err){
+        res.json({message:err});
+    }
+});
+
 
 
 module.exports =router;
